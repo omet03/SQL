@@ -17,7 +17,7 @@ AND orderID <> 'Order ID'
 AND Product = 'iPhone'
 ;
 
---Query 3: Select the customer accountt numbers for all the orders that were placed in february 
+--Query 3: Select the customer account numbers for all the orders that were placed in february 
 SELECT distinct acctnum 
 FROM BIT_DB.customers
 
@@ -28,7 +28,7 @@ WHERE length(orderID) =6
 AND orderid <> 'Order ID'
 ;
 
---Query 4: Which product was the cheapest one sold in January, ans what was the price? 
+--Query 4: Which product was the cheapest one sold in January, and what was the price? 
 SELECT distinct Product, price
 FROM JanSales 
 WHERE price = (SELECT MIN(price) FROM JanSales)
