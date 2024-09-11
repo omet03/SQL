@@ -35,7 +35,7 @@ WHERE price = (SELECT MIN(price) FROM JanSales)
 GROUP BY product
 ;
 
---Query 5:What is the total revenue for each product sold in January
+--Query 5:What is the total revenue for each product sold in January?
 SELECT Product, SUM(Quantity)*price
 FROM JanSales 
 GROUP BY product
