@@ -1,0 +1,65 @@
+-- I wrote this code to query a database with multiple tables in it to quantify statistics about customer and order data. 
+--Customer & Order Analytics Project
+--By Ometere Makoju 11/09/2024
+
+--Query 1: How many orders were placed in January?
+SELECT COUNT (*) AS NumberOfJanSales
+FROM BIT_DB.JanSales
+WHERE length(orderID) = 6
+AND orderID <> 'Order ID'
+;
+
+--Query 2: How many of those orders were for an IPhone?
+SELECT COUNT (*) AS NumberOfJanSales
+FROM BIT_DB.JanSales
+WHERE length(orderID) = 6
+AND orderID <> 'Order ID'
+AND Product = 'iPhone'
+;
+
+--Query 3: Select the customer accountt numbers for all the orders that were placed in february 
+SELECT distinct acctnum 
+FROM BIT_DB.customers
+
+INNER JOIN BIT_DB.FebSales
+ON customers.order_id = FebSales.orderID
+
+WHERE length(orderID) =6
+AND orderid <> 'Order ID'
+;
+
+--Query 4: Which product was the cheapest one sold in January, ans what was the price? 
+SELECT distinct Product, price
+FROM JanSales 
+WHERE price = (SELECT MIN(price) FROM JanSales)
+GROUP BY product
+;
+
+--Query 5:What is the total revenue for each product sold in January
+SELECT Product, SUM(Quantity)*price
+FROM JanSales 
+GROUP BY product
+;
+
+--Query 6: Which products were sold in February at 548 Lincoln St, Seattle, WA 98101, how many of each were sold, and what was the total revenue?
+SELECT Product,
+SUM(Quantity) as NumberOfEachProductSold,
+SUM(Quantity) * price AS TotalRevenue
+FROM FebSales
+WHERE location = '548 Lincoln St, Seattle, WA 98101'
+GROUP BY Product
+;
+
+--Query 7: How many customers ordered more than 2 products at a time in February, and what was the average amount spent for those customers?
+SELECT 
+count(distinct customers.acctnum),
+avg(Quantity *price)
+FROM FebSales
+
+LEFT JOIN customers
+ON customers.order_ID =FebSales.orderID
+
+WHERE Quantity > 2
+AND length(orderid)=6
+AND orderid <> 'Order ID'
+;
