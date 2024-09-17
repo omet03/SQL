@@ -106,3 +106,15 @@ FROM Spotifydata
 ORDER BY tempo desc
 LIMIT 5
 ;
+
+--Query 13: Create A top star table using a CTE
+WITH TopStarTable AS (
+SELECT s.artist_name, AVG(s.popularity) as Popularity_Average
+FROM Spotifydata s
+GROUP BY s.artist_name
+)
+SELECT artist_name, Popularity_Average,
+'Top Star' AS tag
+FROM TopStarTable
+WHERE Popularity_Average>= 90
+;
