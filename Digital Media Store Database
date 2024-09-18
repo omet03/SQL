@@ -1,0 +1,94 @@
+--Query 1: Show customers (their full names, customerID and country) who are not in the US
+SELECT customerID, FirstName, LastName, country
+FROM customers
+WHERE country <> "USA"
+;
+
+--Query 2: Show only the customers from Braxil
+SELECT customerID, FirstName, LastName, country
+FROM customers
+WHERE country = "Brazil"
+;
+
+--Query 3: Find the Invoices of customers who are from Brazil. The resulting table should show the customer's full name, Invoice ID, Date of the invoice, and billing country.
+
+SELECT customers.CustomerId, customers.FirstName, customers.LastName, customers.country, invoices.invoiceid, invoices.BillingCountry, invoices.InvoiceDate
+FROM customers 
+
+INNER JOIN invoices
+ON invoices.CustomerId = customers.CustomerId
+
+WHERE invoices.BillingCountry = "Brazil"
+ORDER BY customers.CustomerId asc
+;
+
+--Query 4: Show the employees who are Sales Agents
+SELECT EmployeeID, FirstName, LastName, Title
+FROM employees
+WHERE Title = "Sales Support Agent"
+;
+
+--Query 5: Find a unique/distinct list of billing countries from the invoice table
+SELECT distinct BillingCountry
+FROM invoices
+;
+
+--Query 6: Find a query that shows the invoices associated with each sales agent. The resulting table should include the Sales Agent's full name
+SELECT employees.title , customers.customerid, invoices.invoiceid, employees.FirstName, employees.LastName
+FROM employees
+
+INNER JOIN customers
+ON employees.EmployeeId = customers.SupportRepid
+
+INNER JOIN invoices
+ON customers.CustomerId = invoices.invoiceID
+
+WHERE employees.Title = "Sales Support Agent"
+ORDER BY customers.customerid asc
+;
+
+--Query 7: Show the Invoice Total, Customer name, Country, and Sales Agent name for all invoices and customers.
+SELECT employees.FirstName, employees.LastName, customers.FirstName, customers.LastName, invoices.Total
+FROM employees
+
+INNER JOIN customers
+ON employees.EmployeeId = customers.SupportRepid
+
+INNER JOIN invoices
+ON customers.CustomerId = invoices.invoiceID
+WHERE employees.Title = "Sales Support Agent"
+;
+
+--Query 8: How many invoicies were there in 2009?
+SELECT count(*)
+FROM invoices
+WHERE InvoiceDate like '2009%'
+;
+
+--Query 9: Whata re the total sales for 2009?
+SELECT sum(total)
+FROM invoices
+WHERE InvoiceDate like '2009%'
+;
+
+--Query 10: Write a query that includes the purchased track name with each invoice line ID.
+SELECT items.invoiceid, items.Trackid, tracks.Name
+FROM invoice_items as items
+
+INNER JOIN tracks
+ON items.TrackId = tracks.Trackid
+;
+
+--Query 11: Write a query that includes the purchased track name AND artist name with each invoice line ID.
+SELECT distinct items.invoiceid, items.Trackid, tracks.Name, artists.Name
+FROM invoice_items as items
+
+INNER JOIN tracks
+ON items.TrackId = tracks.Trackid
+
+INNER JOIN albums
+ON tracks.AlbumId = albums.AlbumId
+
+INNER JOIN artists
+ON albums.ArtistId = albums.ArtistID
+;
